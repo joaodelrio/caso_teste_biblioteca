@@ -1,0 +1,5 @@
+# Created at 2024-10-28T10:30:24.441
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Facu\4ano\Engenharia_Software_III\Testes\CalculaDataDevolucao\CalculaDataDevolucao\biblioteca\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
