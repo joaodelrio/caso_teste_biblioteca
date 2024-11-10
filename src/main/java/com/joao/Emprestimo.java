@@ -1,4 +1,5 @@
 package com.joao;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,52 +8,75 @@ import java.util.List;
 public class Emprestimo {
 
 	Date dataEmprestimo = new Date();
-	/*metodo para gegar a variavel dataEmprestimo*/
+	Date dataPrevista = new Date();
+	Date data_aux = new Date();
+	String nome;
+	//Cada emprestimo tem um conjutno de itens
+    List<Item> item = new ArrayList<Item>();
+    int emprestimo=0;
+	
 	public Date getDataEmprestimo() {
 		return dataEmprestimo;
 	}
 
-	/*metodo para setar a variavel dataEmprestimo*/
 	public void setDataEmprestimo(Date dataEmprestimo) {
 		this.dataEmprestimo = dataEmprestimo;
 	}
 
-	/*utilize essas v�riaveis para calcular a data final de devolu��o*/
-        Date dataPrevista = new Date();
-	Date data_aux = new Date();
-	String nome;
+	public void setItem(List<Item> item) {
+		this.item = item;
+	}
 
-        /*Cada Emprestimo � composto de v�rios itens*/
-	public List<Item> i = new ArrayList<Item>();
 	
-	        //Metodo respons�vel por calcular a data de devolu��o
+	// Metodo respons�vel por realizar o empr�stimo
+    public boolean emprestar(List<Livro> livros) {
+		// TODO Auto-generated method stub
+    	int aux;
+    	//Para o numero de livros a ser emprestado
+    	for(int i=0; i<livros.size();i++)
+		//Adiciona um novo item no cojunto de items, e passa o livro a ser associado a ele
+    		item.add(new Item(livros.get(i))); 
+         
+          //Chama o metodo para calcular a data de devolu��o caso tenha pelo menos um livro que possa ser emprestado
+    		CalculaDataDevolucao();
+    		System.out.print("\nNumero de Livros Emprestados: "+livros.size());
+    	    System.out.print("\nData de Empr�stimo: "+this.dataEmprestimo);
+    	    System.out.print("\nData de Devolu��o: "+this.dataPrevista);
+    		return true;
+    	
+    	
+	}
+    
 	public Date CalculaDataDevolucao() throws IllegalArgumentException
 	{   
-        Date date = new Date();
+		Date date = new Date();
 		
-		for(int j=0;j<i.size();j++)
-		{   data_aux = i.get(j).calculaDataDevolucao(date);
+		for(int j=0;j<item.size();j++)
+		{   data_aux = item.get(j).calculaDataDevolucao(date);
 		    if( dataPrevista.compareTo(data_aux) < 0)
 			  dataPrevista = data_aux;
 		}
-		if(i.size()<1){
+		if(item.size()<1){
 			throw new IllegalArgumentException("Tem que emprestar ao menos 1 livro");
 		}
-		if(i.size()>5){
+		if(item.size()>5){
 			throw new IllegalArgumentException("Nao pode emprestar mais de 5 livros");
 		}
-		if(i.size()>2)
+		if(item.size()>2)
 		{
-			int tam = i.size()-2;
+			int tam = item.size()-2;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dataPrevista);
 			calendar.add(Calendar.DATE, (tam*2));
 	        dataPrevista = calendar.getTime();
 		}
-		for(int j=0;j<i.size();j++)
-			i.get(j).setDataDevolucao(dataPrevista);
+		for(int j=0;j<item.size();j++)
+			item.get(j).setDataDevolucao(dataPrevista);
 		
-		return dataPrevista; 
+		return dataPrevista;
+	
 	}
+
+	
 	
 }

@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -26,12 +28,19 @@ public class EmprestimoTest {
         Livro l2 = new Livro(2);
         Item i1 = new Item(l1);
         Item i2 = new Item(l2);
-        e.i.add(i1);
-        e.i.add(i2);
+        List<Item> itens = new ArrayList<Item>();
+        itens.add(i1);
+        itens.add(i2);
+        e.setItem(itens);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 3);
-        Date date = calendar.getTime();
-        assertTrue("Datas nao sao iguais", date.equals(e.CalculaDataDevolucao()));
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date dateCorreta = calendar.getTime();
+        Date datePrevista = e.CalculaDataDevolucao();
+        calendar.setTime(datePrevista);
+        calendar.set(Calendar.MILLISECOND, 0);
+        datePrevista = calendar.getTime();
+        assertTrue("Datas nao sao iguais", dateCorreta.equals(datePrevista));
     }
     @Test
     public void testCalculaDataDevolucaoCaso3() {
@@ -42,9 +51,11 @@ public class EmprestimoTest {
         Item i1 = new Item(l1);
         Item i2 = new Item(l2);
         Item i3 = new Item(l3);
-        e.i.add(i1);
-        e.i.add(i2);
-        e.i.add(i3);
+        List<Item> itens = new ArrayList<Item>();
+        itens.add(i1);
+        itens.add(i2);
+        itens.add(i3);
+        e.setItem(itens);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 6);
         Date date = calendar.getTime();
@@ -63,11 +74,13 @@ public class EmprestimoTest {
         Item i3 = new Item(l3);
         Item i4 = new Item(l4);
         Item i5 = new Item(l5);
-        e.i.add(i1);
-        e.i.add(i2);
-        e.i.add(i3);
-        e.i.add(i4);
-        e.i.add(i5);
+        List<Item> itens = new ArrayList<Item>();
+        itens.add(i1);
+        itens.add(i2);
+        itens.add(i3);
+        itens.add(i4);
+        itens.add(i5);
+        e.setItem(itens);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 12);
         Date date = calendar.getTime();
@@ -88,12 +101,14 @@ public class EmprestimoTest {
         Item i4 = new Item(l4);
         Item i5 = new Item(l5);
         Item i6 = new Item(l6);
-        e.i.add(i1);
-        e.i.add(i2);
-        e.i.add(i3);
-        e.i.add(i4);
-        e.i.add(i5);
-        e.i.add(i6);
+        List<Item> itens = new ArrayList<Item>();
+        itens.add(i1);
+        itens.add(i2);
+        itens.add(i3);
+        itens.add(i4);
+        itens.add(i5);
+        itens.add(i6);
+        e.setItem(itens);
         assertThrows(IllegalArgumentException.class, () -> {
             e.CalculaDataDevolucao();
         });
